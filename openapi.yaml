@@ -1,0 +1,566 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: ethanol
+  description: This specification aims to provide a good developer experience for using a store API. It will give search functionality and the ability to create and update products
+  license:
+    identifier: mit
+    name: MIT
+  contact:
+    name: Thomas van de Weerd
+    email: t.d.vandeweerd@student.utwente.nl
+  summary: Normalized Store API
+servers:
+  - url: '{baseUrl}'
+tags:
+  - name: product
+    description: Handles products
+  - name: store
+    description: Gives information about the store this API represents
+paths:
+  /store:
+    get:
+      summary: Get store
+      tags:
+        - store
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                example:
+                  value:
+                    name: Albert Heijn
+                    slug: AH
+                    store_count: 1052
+                    website: 'https://ah.nl'
+                    address:
+                      country: NL
+                      postal_code: 1506 MA
+                      city: Zaandam
+                      street_address: Provincialeweg 11
+                    kvk_id: '35012085'
+      operationId: getStore
+      description: 'Get the store brand that this API serves data for.  '
+      security: []
+  '/product/{gtin}':
+    get:
+      summary: Find product by GTIN
+      description: 'Checks if the GTIN exists in the database, returns the matching product if it does, otherwise returns a 404 Not Found'
+      operationId: getProduct
+      tags:
+        - product
+      parameters:
+        - name: gtin
+          in: path
+          description: GTIN of the product we want to request
+          required: true
+          schema:
+            type: string
+            example: '8716700027200'
+      responses:
+        '200':
+          description: Found product by GTIN
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    gtin: '8716700027200'
+                    name: Grolsch Pilsener krat
+                    description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                    category: beer
+                    images:
+                      - height: 800
+                        width: 800
+                        url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                    brand: Grolsch
+                    quantity:
+                      value: 300
+                      unit: ml
+                      amount: 24
+                      total: 7200
+                    attributes:
+                      alcohol_percentage: 5
+                      contains_alcohol: true
+                      '': string
+        '404':
+          description: Could not find product by GTIN
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    code: 404
+                    message: Was not able to find product for GTIN 8716700027200
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    code: 500
+                    message: Something went wrong
+    patch:
+      summary: Update product
+      description: Change some data about a product
+      operationId: updateProduct
+      tags:
+        - product
+      parameters:
+        - name: gtin
+          in: path
+          description: GTIN of the product we want to request
+          required: true
+          schema:
+            type: string
+            example: '8716700027200'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    gtin: '8716700027200'
+                    name: Grolsch Pilsener krat
+                    description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                    category: beer
+                    images:
+                      - height: 800
+                        width: 800
+                        url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                    brand: Grolsch
+                    quantity:
+                      value: 300
+                      unit: ml
+                      amount: 24
+                      total: 7200
+                    attributes:
+                      alcohol_percentage: 5
+                      contains_alcohol: true
+                      '': string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    code: 404
+                    message: Could not find product with GTIN 8716700027200
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductProperties'
+    delete:
+      summary: Delete product
+      tags:
+        - product
+      parameters:
+        - name: gtin
+          in: path
+          description: GTIN of the product we want to request
+          required: true
+          schema:
+            type: string
+            example: '8716700027200'
+      operationId: deleteProduct
+      responses:
+        '204':
+          description: No Content
+      description: Remove a product from the database
+  /product/search:
+    post:
+      summary: Search for product
+      tags:
+        - product
+      operationId: searchProduct
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    gtin: '8716700027200'
+                    name: Grolsch Pilsener krat
+                    description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                    category: beer
+                    images:
+                      - height: 800
+                        width: 800
+                        url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                    brand: Grolsch
+                    quantity:
+                      value: 300
+                      unit: ml
+                      amount: 24
+                      total: 7200
+                    attributes:
+                      alcohol_percentage: 5
+                      contains_alcohol: true
+                      '': string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    code: 404
+                    message: Was not able to find a matching product
+      description: 'Tries to find the product matching all the data you give. Will start by checking GTIN, then validating the rest of the data that should not change like quantity. In case it can not find it by GTIN, it will try to find a very close match by using the name and quantity. This match needs to be above a certain treshold for it to be returned.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductProperties'
+        description: The partial data you have about the item you want to find.
+  /product:
+    get:
+      summary: Get all products
+      description: Get all products stored in the database
+      tags:
+        - product
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    - gtin: '8716700027200'
+                      name: Grolsch Pilsener krat
+                      description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                      category: beer
+                      images:
+                        - height: 800
+                          width: 800
+                          url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                      brand: Grolsch
+                      quantity:
+                        value: 300
+                        unit: ml
+                        amount: 24
+                        total: 7200
+                      attributes:
+                        alcohol_percentage: 5
+                        contains_alcohol: true
+                        '': string
+      operationId: getProducts
+    post:
+      summary: Create product
+      description: Add a product to the database
+      operationId: createProduct
+      tags:
+        - product
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    gtin: '8716700027200'
+                    name: Grolsch Pilsener krat
+                    description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                    category: beer
+                    images:
+                      - height: 800
+                        width: 800
+                        url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                    brand: Grolsch
+                    quantity:
+                      value: 300
+                      unit: ml
+                      amount: 24
+                      total: 7200
+                    attributes:
+                      alcohol_percentage: 5
+                      contains_alcohol: true
+                      '': string
+        '409':
+          description: Already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    code: 409
+                    message: Resource already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+  /status:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-status
+  /info:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-info
+components:
+  schemas:
+    Product:
+      allOf:
+        - $ref: '#/components/schemas/ProductProperties'
+        - $ref: '#/components/schemas/ProductRequiredProperties'
+      examples:
+        - gtin: '8716700027200'
+          name: Grolsch Pilsener krat
+          description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+          category: beer
+          images:
+            - height: 800
+              width: 800
+              url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+          brand: Grolsch
+          quantity:
+            value: 300
+            unit: ml
+            amount: 24
+            total: 7200
+          attributes:
+            alcohol_percentage: 5
+            contains_alcohol: true
+            '': string
+    ProductProperties:
+      type: object
+      properties:
+        gtin:
+          type: string
+          example: '8716700027200'
+        name:
+          type: string
+          example: Grolsch Pilsener krat
+        description:
+          type: string
+          example: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+        category:
+          type: string
+          example: beer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+          example:
+            - height: 800
+              width: 800
+              url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+        brand:
+          type: string
+          example: Grolsch
+        quantity:
+          type: object
+          $ref: '#/components/schemas/Quantity'
+        attributes:
+          type: object
+          $ref: '#/components/schemas/ProductAttributes'
+      examples:
+        - gtin: '8716700027200'
+          name: Grolsch Pilsener krat
+          description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+          category: beer
+          images:
+            - height: 800
+              width: 800
+              url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+          brand: Grolsch
+          quantity:
+            value: 300
+            unit: ml
+            amount: 24
+            total: 7200
+          attributes:
+            alcohol_percentage: 5
+            contains_alcohol: true
+            '': string
+    ProductRequiredProperties:
+      type: object
+      required:
+        - gtin
+        - name
+        - quantity
+      examples: []
+    Image:
+      type: object
+      properties:
+        height:
+          type: integer
+          format: int32
+          example: 300
+        width:
+          type: integer
+          format: int32
+          example: 200
+        url:
+          type: string
+          example: 'https://picsum.photos/200/300'
+      required:
+        - height
+        - width
+        - url
+    Quantity:
+      type: object
+      examples:
+        - value: 300
+          unit: ml
+          amount: 24
+          total: 7200
+      properties:
+        value:
+          type: integer
+          format: int64
+        unit:
+          type: string
+          examples:
+            - mL
+            - kg
+            - L
+            - g
+        amount:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+      required:
+        - value
+        - unit
+        - amount
+        - total
+    ProductAttributes:
+      type: object
+      additionalProperties: true
+      examples:
+        - alcohol_percentage: 5
+          contains_alcohol: true
+          '': string
+        - contains_gluten: false
+      properties:
+        '':
+          type: string
+      description: ''
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 500
+        message:
+          type: string
+          example: Something went wrong
+    Store:
+      title: Store
+      x-stoplight:
+        id: sgljy2746gcjz
+      type: object
+      description: A store brand
+      examples:
+        - name: Albert Heijn
+          slug: AH
+          store_count: 1052
+          website: 'https://ah.nl'
+          address:
+            country: NL
+            postal_code: 1506 MA
+            city: Zaandam
+            street_address: Provincialeweg 11
+          kvk_id: '35012085'
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        store_count:
+          type: integer
+          format: int32
+        website:
+          type: string
+        address:
+          $ref: '#/components/schemas/PostalAddress'
+        kvk_id:
+          type: string
+      required:
+        - name
+        - slug
+        - store_count
+        - website
+        - address
+        - kvk_id
+    PostalAddress:
+      title: Address
+      x-stoplight:
+        id: uge7naca4wrkc
+      type: object
+      examples:
+        - country: NL
+          postal_code: 7522 NB
+          city: Enschede
+          street_address: Drienerlolaan 5
+      properties:
+        country:
+          type: string
+        postal_code:
+          type: string
+        city:
+          type: string
+        street_address:
+          type: string
+      required:
+        - country
+        - postal_code
+        - city
+        - street_address
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+security:
+  - BearerToken: []
