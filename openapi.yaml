@@ -4,8 +4,9 @@ info:
   title: ethanol
   description: This specification aims to provide a good developer experience for using a store API. It will give search functionality and the ability to create and update products
   license:
-    identifier: mit
-    name: MIT
+    identifier: GPL-3.0-or-later
+    name: GNU General Public License v3.0 or later
+    url: https://spdx.org/licenses/GPL-3.0-or-later.html
   contact:
     name: Thomas van de Weerd
     email: t.d.vandeweerd@student.utwente.nl
