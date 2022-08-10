@@ -1,0 +1,28 @@
+{
+  "name": "ethanol",
+  "version": "1.0.0",
+  "description": "Store API",
+  "main": "index.js",
+  "scripts": {
+    "generate-api": "widdershins --language_tabs 'javascript:Javascript' --summary openapi.yaml -o api.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TotoTheDragon/Ethanol.git"
+  },
+  "keywords": [
+    "store",
+    "api",
+    "product",
+    "database"
+  ],
+  "author": "TotoTheDragon",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TotoTheDragon/Ethanol/issues"
+  },
+  "homepage": "https://github.com/TotoTheDragon/Ethanol#readme",
+  "devDependencies": {
+    "widdershins": "^4.0.1"
+  }
+}
