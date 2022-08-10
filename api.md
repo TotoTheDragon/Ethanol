@@ -1,0 +1,872 @@
+---
+title: ethanol v1.0.0
+language_tabs:
+  - "'javascript": Javascript'
+language_clients:
+  - "'javascript": ""
+toc_footers: []
+includes: []
+search: true
+highlight_theme: darkula
+headingLevel: 2
+
+---
+
+<!-- Generator: Widdershins v4.0.1 -->
+
+<h1 id="ethanol">ethanol v1.0.0</h1>
+
+> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
+
+This specification aims to provide a good developer experience for using a store API. It will give search functionality and the ability to create and update products
+
+Base URLs:
+
+* <a href="{baseUrl}">{baseUrl}</a>
+
+Email: <a href="mailto:t.d.vandeweerd@student.utwente.nl">Thomas van de Weerd</a> 
+License: <a href="https://spdx.org/licenses/GPL-3.0-or-later.html">GNU General Public License v3.0 or later</a>
+
+# Authentication
+
+- HTTP Authentication, scheme: bearer 
+
+<h1 id="ethanol-default">Default</h1>
+
+## Your GET endpoint
+
+<a id="opIdget-info"></a>
+
+> Code samples
+
+`GET /info`
+
+<h3 id="your-get-endpoint-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+<h1 id="ethanol-product">product</h1>
+
+Handles products
+
+## Find product by GTIN
+
+<a id="opIdgetProduct"></a>
+
+> Code samples
+
+`GET /product/{gtin}`
+
+Checks if the GTIN exists in the database, returns the matching product if it does, otherwise returns a 404 Not Found
+
+<h3 id="find-product-by-gtin-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|gtin|path|string|true|GTIN of the product we want to request|
+
+> Example responses
+
+> Found product by GTIN
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+> Could not find product by GTIN
+
+```json
+{
+  "code": 404,
+  "message": "Was not able to find product for GTIN 8716700027200"
+}
+```
+
+> Unexpected error
+
+```json
+{
+  "code": 500,
+  "message": "Something went wrong"
+}
+```
+
+<h3 id="find-product-by-gtin-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Found product by GTIN|[Product](#schemaproduct)|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Could not find product by GTIN|[Error](#schemaerror)|
+|default|Default|Unexpected error|[Error](#schemaerror)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+## Update product
+
+<a id="opIdupdateProduct"></a>
+
+> Code samples
+
+`PATCH /product/{gtin}`
+
+Change some data about a product
+
+> Body parameter
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+<h3 id="update-product-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|gtin|path|string|true|GTIN of the product we want to request|
+|body|body|[ProductProperties](#schemaproductproperties)|false|none|
+
+> Example responses
+
+> OK
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+> Not Found
+
+```json
+{
+  "code": 404,
+  "message": "Could not find product with GTIN 8716700027200"
+}
+```
+
+<h3 id="update-product-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Product](#schemaproduct)|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|[Error](#schemaerror)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+## Delete product
+
+<a id="opIddeleteProduct"></a>
+
+> Code samples
+
+`DELETE /product/{gtin}`
+
+Remove a product from the database
+
+<h3 id="delete-product-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|gtin|path|string|true|GTIN of the product we want to request|
+
+<h3 id="delete-product-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No Content|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+## Search for product
+
+<a id="opIdsearchProduct"></a>
+
+> Code samples
+
+`POST /product/search`
+
+Tries to find the product matching all the data you give. Will start by checking GTIN, then validating the rest of the data that should not change like quantity. In case it can not find it by GTIN, it will try to find a very close match by using the name and quantity. This match needs to be above a certain treshold for it to be returned.
+
+> Body parameter
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+<h3 id="search-for-product-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[ProductProperties](#schemaproductproperties)|false|The partial data you have about the item you want to find.|
+
+> Example responses
+
+> OK
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+> Not Found
+
+```json
+{
+  "code": 404,
+  "message": "Was not able to find a matching product"
+}
+```
+
+<h3 id="search-for-product-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Product](#schemaproduct)|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|[Error](#schemaerror)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+## Get all products
+
+<a id="opIdgetProducts"></a>
+
+> Code samples
+
+`GET /product`
+
+Get all products stored in the database
+
+> Example responses
+
+> OK
+
+```json
+[
+  {
+    "gtin": "8716700027200",
+    "name": "Grolsch Pilsener krat",
+    "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+    "category": "beer",
+    "images": [
+      {
+        "height": 800,
+        "width": 800,
+        "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+      }
+    ],
+    "brand": "Grolsch",
+    "quantity": {
+      "value": 300,
+      "unit": "ml",
+      "amount": 24,
+      "total": 7200
+    },
+    "attributes": {
+      "alcohol_percentage": 5,
+      "contains_alcohol": true,
+      "": "string"
+    }
+  }
+]
+```
+
+<h3 id="get-all-products-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
+
+<h3 id="get-all-products-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ProductProperties](#schemaproductproperties)|false|none|none|
+|»» gtin|string|false|none|none|
+|»» name|string|false|none|none|
+|»» description|string|false|none|none|
+|»» category|string|false|none|none|
+|»» images|[[Image](#schemaimage)]|false|none|none|
+|»»» height|integer(int32)|true|none|none|
+|»»» width|integer(int32)|true|none|none|
+|»»» url|string|true|none|none|
+|»» brand|string|false|none|none|
+|»» quantity|[Quantity](#schemaquantity)|false|none|none|
+|»»» value|integer(int64)|true|none|none|
+|»»» unit|string|true|none|none|
+|»»» amount|integer(int64)|true|none|none|
+|»»» total|integer(int64)|true|none|none|
+|»» attributes|[ProductAttributes](#schemaproductattributes)|false|none|none|
+|»»» *anonymous*|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ProductRequiredProperties](#schemaproductrequiredproperties)|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+## Create product
+
+<a id="opIdcreateProduct"></a>
+
+> Code samples
+
+`POST /product`
+
+Add a product to the database
+
+> Body parameter
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+<h3 id="create-product-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[Product](#schemaproduct)|false|none|
+
+> Example responses
+
+> OK
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
+> Already exists
+
+```json
+{
+  "code": 409,
+  "message": "Resource already exists"
+}
+```
+
+<h3 id="create-product-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Product](#schemaproduct)|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|Already exists|[Error](#schemaerror)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+<h1 id="ethanol-store">store</h1>
+
+Gives information about the store this API represents
+
+## Get store
+
+<a id="opIdgetStore"></a>
+
+> Code samples
+
+`GET /store`
+
+Get the store brand that this API serves data for.  
+
+> Example responses
+
+> OK
+
+```json
+{
+  "name": "Albert Heijn",
+  "slug": "AH",
+  "store_count": 1052,
+  "website": "https://ah.nl",
+  "address": {
+    "country": "NL",
+    "postal_code": "1506 MA",
+    "city": "Zaandam",
+    "street_address": "Provincialeweg 11"
+  },
+  "kvk_id": "35012085"
+}
+```
+
+<h3 id="get-store-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Store](#schemastore)|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+# Schemas
+
+<h2 id="tocS_Product">Product</h2>
+<!-- backwards compatibility -->
+<a id="schemaproduct"></a>
+<a id="schema_Product"></a>
+<a id="tocSproduct"></a>
+<a id="tocsproduct"></a>
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+
+```
+
+### Properties
+
+allOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[ProductProperties](#schemaproductproperties)|false|none|none|
+
+and
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[ProductRequiredProperties](#schemaproductrequiredproperties)|false|none|none|
+
+<h2 id="tocS_ProductProperties">ProductProperties</h2>
+<!-- backwards compatibility -->
+<a id="schemaproductproperties"></a>
+<a id="schema_ProductProperties"></a>
+<a id="tocSproductproperties"></a>
+<a id="tocsproductproperties"></a>
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|gtin|string|false|none|none|
+|name|string|false|none|none|
+|description|string|false|none|none|
+|category|string|false|none|none|
+|images|[[Image](#schemaimage)]|false|none|none|
+|brand|string|false|none|none|
+|quantity|[Quantity](#schemaquantity)|false|none|none|
+|attributes|[ProductAttributes](#schemaproductattributes)|false|none|none|
+
+<h2 id="tocS_ProductRequiredProperties">ProductRequiredProperties</h2>
+<!-- backwards compatibility -->
+<a id="schemaproductrequiredproperties"></a>
+<a id="schema_ProductRequiredProperties"></a>
+<a id="tocSproductrequiredproperties"></a>
+<a id="tocsproductrequiredproperties"></a>
+
+```json
+{}
+
+```
+
+### Properties
+
+*None*
+
+<h2 id="tocS_Image">Image</h2>
+<!-- backwards compatibility -->
+<a id="schemaimage"></a>
+<a id="schema_Image"></a>
+<a id="tocSimage"></a>
+<a id="tocsimage"></a>
+
+```json
+{
+  "height": 300,
+  "width": 200,
+  "url": "https://picsum.photos/200/300"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|height|integer(int32)|true|none|none|
+|width|integer(int32)|true|none|none|
+|url|string|true|none|none|
+
+<h2 id="tocS_Quantity">Quantity</h2>
+<!-- backwards compatibility -->
+<a id="schemaquantity"></a>
+<a id="schema_Quantity"></a>
+<a id="tocSquantity"></a>
+<a id="tocsquantity"></a>
+
+```json
+{
+  "value": 300,
+  "unit": "ml",
+  "amount": 24,
+  "total": 7200
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|value|integer(int64)|true|none|none|
+|unit|string|true|none|none|
+|amount|integer(int64)|true|none|none|
+|total|integer(int64)|true|none|none|
+
+<h2 id="tocS_ProductAttributes">ProductAttributes</h2>
+<!-- backwards compatibility -->
+<a id="schemaproductattributes"></a>
+<a id="schema_ProductAttributes"></a>
+<a id="tocSproductattributes"></a>
+<a id="tocsproductattributes"></a>
+
+```json
+{
+  "alcohol_percentage": 5,
+  "contains_alcohol": true,
+  "": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|string|false|none|none|
+
+<h2 id="tocS_Error">Error</h2>
+<!-- backwards compatibility -->
+<a id="schemaerror"></a>
+<a id="schema_Error"></a>
+<a id="tocSerror"></a>
+<a id="tocserror"></a>
+
+```json
+{
+  "code": 500,
+  "message": "Something went wrong"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|code|integer(int32)|true|none|none|
+|message|string|true|none|none|
+
+<h2 id="tocS_Store">Store</h2>
+<!-- backwards compatibility -->
+<a id="schemastore"></a>
+<a id="schema_Store"></a>
+<a id="tocSstore"></a>
+<a id="tocsstore"></a>
+
+```json
+{
+  "name": "Albert Heijn",
+  "slug": "AH",
+  "store_count": 1052,
+  "website": "https://ah.nl",
+  "address": {
+    "country": "NL",
+    "postal_code": "1506 MA",
+    "city": "Zaandam",
+    "street_address": "Provincialeweg 11"
+  },
+  "kvk_id": "35012085"
+}
+
+```
+
+Store
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|name|string|true|none|none|
+|slug|string|true|none|none|
+|store_count|integer(int32)|true|none|none|
+|website|string|true|none|none|
+|address|[PostalAddress](#schemapostaladdress)|true|none|none|
+|kvk_id|string|true|none|none|
+
+<h2 id="tocS_PostalAddress">PostalAddress</h2>
+<!-- backwards compatibility -->
+<a id="schemapostaladdress"></a>
+<a id="schema_PostalAddress"></a>
+<a id="tocSpostaladdress"></a>
+<a id="tocspostaladdress"></a>
+
+```json
+{
+  "country": "NL",
+  "postal_code": "7522 NB",
+  "city": "Enschede",
+  "street_address": "Drienerlolaan 5"
+}
+
+```
+
+Address
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|country|string|true|none|none|
+|postal_code|string|true|none|none|
+|city|string|true|none|none|
+|street_address|string|true|none|none|
+
