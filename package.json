@@ -4,7 +4,7 @@
   "description": "Store API",
   "main": "index.js",
   "scripts": {
-    "generate-api": "widdershins --language_tabs 'javascript:Javascript' --summary openapi.yaml -o api.md"
+    "generate-api": "widdershins --language_tabs 'javascript:Javascript' -t atom-one-dark --summary openapi.yaml -o api.md"
   },
   "repository": {
     "type": "git",

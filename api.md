@@ -7,7 +7,7 @@ language_clients:
 toc_footers: []
 includes: []
 search: true
-highlight_theme: darkula
+highlight_theme: atom-one-dark
 headingLevel: 2
 
 ---
