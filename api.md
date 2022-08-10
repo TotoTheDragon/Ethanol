@@ -31,27 +31,166 @@ License: <a href="https://spdx.org/licenses/GPL-3.0-or-later.html">GNU General P
 
 - HTTP Authentication, scheme: bearer 
 
-<h1 id="ethanol-default">Default</h1>
+<h1 id="ethanol-store">Store</h1>
 
-## Your GET endpoint
+Gives information about the store this API represents
 
-<a id="opIdget-info"></a>
+## Get store
+
+<a id="opIdgetStore"></a>
 
 > Code samples
 
-`GET /info`
+`GET /store`
 
-<h3 id="your-get-endpoint-responses">Responses</h3>
+Get the store brand that this API serves data for.  
+
+> Example responses
+
+> OK
+
+```json
+{
+  "name": "Albert Heijn",
+  "slug": "AH",
+  "store_count": 1052,
+  "website": "https://ah.nl",
+  "address": {
+    "country": "NL",
+    "postal_code": "1506 MA",
+    "city": "Zaandam",
+    "street_address": "Provincialeweg 11"
+  },
+  "kvk_id": "35012085"
+}
+```
+
+<h3 id="get-store-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Store](#schemastore)|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="ethanol-health">Health</h1>
+
+Handles information about the health of this API
+
+## Get API Health
+
+<a id="opIdgetHealth"></a>
+
+> Code samples
+
+`GET /health`
+
+Get whether or not the API is currently healthy
+
+> Example responses
+
+> OK
+
+```json
+{
+  "healthy": true,
+  "checks": {
+    "memory": {
+      "status": "up",
+      "used": 300,
+      "max": 512
+    },
+    "response-time": {
+      "50": 7,
+      "90": 12,
+      "95": 14,
+      "average": 8
+    }
+  },
+  "dependencies": {
+    "database": {
+      "name": "Postgre",
+      "healthy": true,
+      "latency": 3
+    },
+    "external-api": {
+      "name": "Some API",
+      "healthy": true,
+      "latency": 20
+    }
+  }
+}
+```
+
+> Service Unavailable
+
+```json
+{
+  "healthy": true,
+  "checks": {
+    "memory": {
+      "status": "up",
+      "used": 300,
+      "max": 512
+    },
+    "response-time": {
+      "50": 7,
+      "90": 12,
+      "95": 14,
+      "average": 8
+    }
+  },
+  "dependencies": {
+    "database": {
+      "name": "Postgre",
+      "healthy": true,
+      "latency": 3
+    },
+    "external-api": {
+      "name": "Some API",
+      "healthy": true,
+      "latency": 20
+    }
+  }
+}
+```
+
+<h3 id="get-api-health-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Health](#schemahealth)|
+|503|[Service Unavailable](https://tools.ietf.org/html/rfc7231#section-6.6.4)|Service Unavailable|[Health](#schemahealth)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 BearerToken
 </aside>
 
-<h1 id="ethanol-product">product</h1>
+## Get API readiness
+
+<a id="opIdgetIsServerReady"></a>
+
+> Code samples
+
+`GET /health/ready`
+
+A basic ping-pong to check if the server is able to receive requests and respond to them
+
+<h3 id="get-api-readiness-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+BearerToken
+</aside>
+
+<h1 id="ethanol-products">Products</h1>
 
 Handles products
 
@@ -213,6 +352,36 @@ Change some data about a product
 }
 ```
 
+> Not Modified
+
+```json
+{
+  "gtin": "8716700027200",
+  "name": "Grolsch Pilsener krat",
+  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+  "category": "beer",
+  "images": [
+    {
+      "height": 800,
+      "width": 800,
+      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+    }
+  ],
+  "brand": "Grolsch",
+  "quantity": {
+    "value": 300,
+    "unit": "ml",
+    "amount": 24,
+    "total": 7200
+  },
+  "attributes": {
+    "alcohol_percentage": 5,
+    "contains_alcohol": true,
+    "": "string"
+  }
+}
+```
+
 > Not Found
 
 ```json
@@ -227,6 +396,7 @@ Change some data about a product
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Product](#schemaproduct)|
+|304|[Not Modified](https://tools.ietf.org/html/rfc7232#section-4.1)|Not Modified|[Product](#schemaproduct)|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|[Error](#schemaerror)|
 
 <aside class="warning">
@@ -550,50 +720,6 @@ To perform this operation, you must be authenticated by means of one of the foll
 BearerToken
 </aside>
 
-<h1 id="ethanol-store">store</h1>
-
-Gives information about the store this API represents
-
-## Get store
-
-<a id="opIdgetStore"></a>
-
-> Code samples
-
-`GET /store`
-
-Get the store brand that this API serves data for.  
-
-> Example responses
-
-> OK
-
-```json
-{
-  "name": "Albert Heijn",
-  "slug": "AH",
-  "store_count": 1052,
-  "website": "https://ah.nl",
-  "address": {
-    "country": "NL",
-    "postal_code": "1506 MA",
-    "city": "Zaandam",
-    "street_address": "Provincialeweg 11"
-  },
-  "kvk_id": "35012085"
-}
-```
-
-<h3 id="get-store-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Store](#schemastore)|
-
-<aside class="success">
-This operation does not require authentication
-</aside>
-
 # Schemas
 
 <h2 id="tocS_Product">Product</h2>
@@ -869,4 +995,97 @@ Address
 |postal_code|string|true|none|none|
 |city|string|true|none|none|
 |street_address|string|true|none|none|
+
+<h2 id="tocS_Health">Health</h2>
+<!-- backwards compatibility -->
+<a id="schemahealth"></a>
+<a id="schema_Health"></a>
+<a id="tocShealth"></a>
+<a id="tocshealth"></a>
+
+```json
+{
+  "healthy": true,
+  "checks": {
+    "memory": {
+      "status": "up",
+      "used": 300,
+      "max": 512
+    },
+    "response-time": {
+      "50": 7,
+      "90": 12,
+      "95": 14,
+      "average": 8
+    }
+  },
+  "dependencies": {
+    "database": {
+      "name": "Postgre",
+      "healthy": true,
+      "latency": 3
+    },
+    "external-api": {
+      "name": "Some API",
+      "healthy": true,
+      "latency": 20
+    }
+  }
+}
+
+```
+
+The current health of the api
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|healthy|boolean|false|none|none|
+|checks|object|false|none|none|
+|» memory|object|false|none|none|
+|»» status|string|false|none|none|
+|»» used|integer|false|none|none|
+|»» max|integer|false|none|none|
+|» response-time|object|false|none|none|
+|»» 50|integer|false|none|none|
+|»» 90|integer|false|none|none|
+|»» 95|integer|false|none|none|
+|»» average|integer|false|none|none|
+|dependencies|object|false|none|none|
+|» *anonymous*|[HealthDependency](#schemahealthdependency)|false|none|none|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|status|up|
+|status|partial|
+|status|down|
+
+<h2 id="tocS_HealthDependency">HealthDependency</h2>
+<!-- backwards compatibility -->
+<a id="schemahealthdependency"></a>
+<a id="schema_HealthDependency"></a>
+<a id="tocShealthdependency"></a>
+<a id="tocshealthdependency"></a>
+
+```json
+{
+  "name": "string",
+  "latency": 0,
+  "healthy": true
+}
+
+```
+
+HealthDependency
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|name|string|true|none|none|
+|latency|integer|true|none|none|
+|healthy|boolean|true|none|none|
 

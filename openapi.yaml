@@ -4,9 +4,8 @@ info:
   title: ethanol
   description: This specification aims to provide a good developer experience for using a store API. It will give search functionality and the ability to create and update products
   license:
-    identifier: GPL-3.0-or-later
     name: GNU General Public License v3.0 or later
-    url: https://spdx.org/licenses/GPL-3.0-or-later.html
+    url: 'https://spdx.org/licenses/GPL-3.0-or-later.html'
   contact:
     name: Thomas van de Weerd
     email: t.d.vandeweerd@student.utwente.nl
@@ -14,16 +13,18 @@ info:
 servers:
   - url: '{baseUrl}'
 tags:
-  - name: product
-    description: Handles products
-  - name: store
+  - name: Store
     description: Gives information about the store this API represents
+  - name: Health
+    description: Handles information about the health of this API
+  - name: Products
+    description: Handles products
 paths:
   /store:
     get:
       summary: Get store
       tags:
-        - store
+        - Store
       responses:
         '200':
           description: OK
@@ -53,7 +54,7 @@ paths:
       description: 'Checks if the GTIN exists in the database, returns the matching product if it does, otherwise returns a 404 Not Found'
       operationId: getProduct
       tags:
-        - product
+        - Products
       parameters:
         - name: gtin
           in: path
@@ -118,7 +119,7 @@ paths:
       description: Change some data about a product
       operationId: updateProduct
       tags:
-        - product
+        - Products
       parameters:
         - name: gtin
           in: path
@@ -130,6 +131,33 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                example:
+                  value:
+                    gtin: '8716700027200'
+                    name: Grolsch Pilsener krat
+                    description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+                    category: beer
+                    images:
+                      - height: 800
+                        width: 800
+                        url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+                    brand: Grolsch
+                    quantity:
+                      value: 300
+                      unit: ml
+                      amount: 24
+                      total: 7200
+                    attributes:
+                      alcohol_percentage: 5
+                      contains_alcohol: true
+                      '': string
+        '304':
+          description: Not Modified
           content:
             application/json:
               schema:
@@ -174,7 +202,7 @@ paths:
     delete:
       summary: Delete product
       tags:
-        - product
+        - Products
       parameters:
         - name: gtin
           in: path
@@ -192,7 +220,7 @@ paths:
     post:
       summary: Search for product
       tags:
-        - product
+        - Products
       operationId: searchProduct
       responses:
         '200':
@@ -245,7 +273,7 @@ paths:
       summary: Get all products
       description: Get all products stored in the database
       tags:
-        - product
+        - Products
       responses:
         '200':
           description: OK
@@ -283,7 +311,7 @@ paths:
       description: Add a product to the database
       operationId: createProduct
       tags:
-        - product
+        - Products
       responses:
         '200':
           description: OK
@@ -328,20 +356,82 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Product'
-  /status:
+  /health:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get API Health
+      tags:
+        - Health
       responses:
         '200':
           description: OK
-      operationId: get-status
-  /info:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                example:
+                  value:
+                    healthy: true
+                    checks:
+                      memory:
+                        status: up
+                        used: 300
+                        max: 512
+                      response-time:
+                        '50': 7
+                        '90': 12
+                        '95': 14
+                        average: 8
+                    dependencies:
+                      database:
+                        name: Postgre
+                        healthy: true
+                        latency: 3
+                      external-api:
+                        name: Some API
+                        healthy: true
+                        latency: 20
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                example:
+                  value:
+                    healthy: true
+                    checks:
+                      memory:
+                        status: up
+                        used: 300
+                        max: 512
+                      response-time:
+                        '50': 7
+                        '90': 12
+                        '95': 14
+                        average: 8
+                    dependencies:
+                      database:
+                        name: Postgre
+                        healthy: true
+                        latency: 3
+                      external-api:
+                        name: Some API
+                        healthy: true
+                        latency: 20
+      operationId: getHealth
+      description: Get whether or not the API is currently healthy
+  /health/ready:
     get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-info
+      summary: Get API readiness
+      tags:
+        - Health
+      responses:
+        '200':
+          description: OK
+      operationId: getIsServerReady
+      description: A basic ping-pong to check if the server is able to receive requests and respond to them
 components:
   schemas:
     Product:
@@ -559,6 +649,102 @@ components:
         - postal_code
         - city
         - street_address
+    Health:
+      type: object
+      x-examples:
+        example-1:
+          healthy: true
+          checks:
+            memory:
+              status: good
+              used: 300
+              max: 512
+            response-time:
+              '50': 7
+              '90': 12
+              '95': 14
+              average: 8
+          dependencies:
+            database:
+              healthy: true
+              latency: 3
+            external-api:
+              healthy: true
+              latency: 20
+      examples:
+        - healthy: true
+          checks:
+            memory:
+              status: up
+              used: 300
+              max: 512
+            response-time:
+              '50': 7
+              '90': 12
+              '95': 14
+              average: 8
+          dependencies:
+            database:
+              name: Postgre
+              healthy: true
+              latency: 3
+            external-api:
+              name: Some API
+              healthy: true
+              latency: 20
+      description: The current health of the api
+      title: ''
+      properties:
+        healthy:
+          type: boolean
+        checks:
+          type: object
+          properties:
+            memory:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - up
+                    - partial
+                    - down
+                used:
+                  type: integer
+                max:
+                  type: integer
+            response-time:
+              type: object
+              properties:
+                '50':
+                  type: integer
+                '90':
+                  type: integer
+                '95':
+                  type: integer
+                average:
+                  type: integer
+        dependencies:
+          type: object
+          properties:
+            '':
+              $ref: '#/components/schemas/HealthDependency'
+    HealthDependency:
+      title: HealthDependency
+      x-stoplight:
+        id: zt54ur4kbkpi8
+      type: object
+      properties:
+        name:
+          type: string
+        latency:
+          type: integer
+        healthy:
+          type: boolean
+      required:
+        - name
+        - latency
+        - healthy
   securitySchemes:
     BearerToken:
       type: http
