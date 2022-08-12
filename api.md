@@ -439,7 +439,7 @@ BearerToken
 
 `POST /product/search`
 
-Tries to find the product matching all the data you give. Will start by checking GTIN, then validating the rest of the data that should not change like quantity. In case it can not find it by GTIN, it will try to find a very close match by using the name and quantity. This match needs to be above a certain treshold for it to be returned.
+Tries to find the product matching all the data you give. Will start by checking GTIN, then validating the rest of the data that should not change like quantity. In case it can not find it by GTIN, it will try to find a very close match by using the name and quantity. This match needs to be above a certain treshold for it to be returned. Returns all matches found in order of percentage matched
 
 > Body parameter
 
@@ -482,31 +482,33 @@ Tries to find the product matching all the data you give. Will start by checking
 > OK
 
 ```json
-{
-  "gtin": "8716700027200",
-  "name": "Grolsch Pilsener krat",
-  "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
-  "category": "beer",
-  "images": [
-    {
-      "height": 800,
-      "width": 800,
-      "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+[
+  {
+    "gtin": "8716700027200",
+    "name": "Grolsch Pilsener krat",
+    "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
+    "category": "beer",
+    "images": [
+      {
+        "height": 800,
+        "width": 800,
+        "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+      }
+    ],
+    "brand": "Grolsch",
+    "quantity": {
+      "value": 300,
+      "unit": "ml",
+      "amount": 24,
+      "total": 7200
+    },
+    "attributes": {
+      "alcohol_percentage": 5,
+      "contains_alcohol": true,
+      "": "string"
     }
-  ],
-  "brand": "Grolsch",
-  "quantity": {
-    "value": 300,
-    "unit": "ml",
-    "amount": 24,
-    "total": 7200
-  },
-  "attributes": {
-    "alcohol_percentage": 5,
-    "contains_alcohol": true,
-    "": "string"
   }
-}
+]
 ```
 
 > Not Found
@@ -522,8 +524,44 @@ Tries to find the product matching all the data you give. Will start by checking
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[Product](#schemaproduct)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|Inline|
 |404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not Found|[Error](#schemaerror)|
+
+<h3 id="search-for-product-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ProductProperties](#schemaproductproperties)|false|none|none|
+|»» gtin|string|false|none|none|
+|»» name|string|false|none|none|
+|»» description|string|false|none|none|
+|»» category|string|false|none|none|
+|»» images|[[Image](#schemaimage)]|false|none|none|
+|»»» height|integer(int32)|true|none|none|
+|»»» width|integer(int32)|true|none|none|
+|»»» url|string|true|none|none|
+|»» brand|string|false|none|none|
+|»» quantity|[Quantity](#schemaquantity)|false|none|none|
+|»»» value|integer(int64)|true|none|none|
+|»»» unit|string|true|none|none|
+|»»» amount|integer(int64)|true|none|none|
+|»»» total|integer(int64)|true|none|none|
+|»» attributes|[ProductAttributes](#schemaproductattributes)|false|none|none|
+|»»» *anonymous*|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ProductRequiredProperties](#schemaproductrequiredproperties)|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
