@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/TotoTheDragon/Ethanol#readme",
   "devDependencies": {
+    "@types/node": "^18.7.2",
+    "typescript": "^4.7.4",
     "widdershins": "^4.0.1"
   }
 }
