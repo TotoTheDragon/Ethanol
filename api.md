@@ -220,6 +220,8 @@ Checks if the GTIN exists in the database, returns the matching product if it do
   "name": "Grolsch Pilsener krat",
   "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
   "category": "beer",
+  "brand": "Grolsch",
+  "price": 1699,
   "images": [
     {
       "height": 800,
@@ -227,7 +229,6 @@ Checks if the GTIN exists in the database, returns the matching product if it do
       "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
     }
   ],
-  "brand": "Grolsch",
   "quantity": {
     "value": 300,
     "unit": "ml",
@@ -330,6 +331,8 @@ Change some data about a product
   "name": "Grolsch Pilsener krat",
   "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
   "category": "beer",
+  "brand": "Grolsch",
+  "price": 1699,
   "images": [
     {
       "height": 800,
@@ -337,7 +340,6 @@ Change some data about a product
       "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
     }
   ],
-  "brand": "Grolsch",
   "quantity": {
     "value": 300,
     "unit": "ml",
@@ -488,6 +490,8 @@ Tries to find the product matching all the data you give. Will start by checking
     "name": "Grolsch Pilsener krat",
     "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
     "category": "beer",
+    "brand": "Grolsch",
+    "price": 1699,
     "images": [
       {
         "height": 800,
@@ -495,7 +499,6 @@ Tries to find the product matching all the data you give. Will start by checking
         "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
       }
     ],
-    "brand": "Grolsch",
     "quantity": {
       "value": 300,
       "unit": "ml",
@@ -544,11 +547,12 @@ Status Code **200**
 |»» name|string|false|none|none|
 |»» description|string|false|none|none|
 |»» category|string|false|none|none|
+|»» brand|string|false|none|none|
+|»» price|integer|false|none|none|
 |»» images|[[Image](#schemaimage)]|false|none|none|
 |»»» height|integer(int32)|true|none|none|
 |»»» width|integer(int32)|true|none|none|
 |»»» url|string|true|none|none|
-|»» brand|string|false|none|none|
 |»» quantity|[Quantity](#schemaquantity)|false|none|none|
 |»»» value|integer(int64)|true|none|none|
 |»»» unit|string|true|none|none|
@@ -589,6 +593,8 @@ Get all products stored in the database
     "name": "Grolsch Pilsener krat",
     "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
     "category": "beer",
+    "brand": "Grolsch",
+    "price": 1699,
     "images": [
       {
         "height": 800,
@@ -596,7 +602,6 @@ Get all products stored in the database
         "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
       }
     ],
-    "brand": "Grolsch",
     "quantity": {
       "value": 300,
       "unit": "ml",
@@ -635,11 +640,12 @@ Status Code **200**
 |»» name|string|false|none|none|
 |»» description|string|false|none|none|
 |»» category|string|false|none|none|
+|»» brand|string|false|none|none|
+|»» price|integer|false|none|none|
 |»» images|[[Image](#schemaimage)]|false|none|none|
 |»»» height|integer(int32)|true|none|none|
 |»»» width|integer(int32)|true|none|none|
 |»»» url|string|true|none|none|
-|»» brand|string|false|none|none|
 |»» quantity|[Quantity](#schemaquantity)|false|none|none|
 |»»» value|integer(int64)|true|none|none|
 |»»» unit|string|true|none|none|
@@ -677,6 +683,8 @@ Add a product to the database
   "name": "Grolsch Pilsener krat",
   "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
   "category": "beer",
+  "brand": "Grolsch",
+  "price": 1699,
   "images": [
     {
       "height": 800,
@@ -684,7 +692,6 @@ Add a product to the database
       "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
     }
   ],
-  "brand": "Grolsch",
   "quantity": {
     "value": 300,
     "unit": "ml",
@@ -715,6 +722,8 @@ Add a product to the database
   "name": "Grolsch Pilsener krat",
   "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
   "category": "beer",
+  "brand": "Grolsch",
+  "price": 1699,
   "images": [
     {
       "height": 800,
@@ -722,7 +731,6 @@ Add a product to the database
       "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
     }
   ],
-  "brand": "Grolsch",
   "quantity": {
     "value": 300,
     "unit": "ml",
@@ -773,6 +781,8 @@ BearerToken
   "name": "Grolsch Pilsener krat",
   "description": "Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.",
   "category": "beer",
+  "brand": "Grolsch",
+  "price": 1699,
   "images": [
     {
       "height": 800,
@@ -780,7 +790,6 @@ BearerToken
       "url": "https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
     }
   ],
-  "brand": "Grolsch",
   "quantity": {
     "value": 300,
     "unit": "ml",
@@ -854,8 +863,9 @@ and
 |name|string|false|none|none|
 |description|string|false|none|none|
 |category|string|false|none|none|
-|images|[[Image](#schemaimage)]|false|none|none|
 |brand|string|false|none|none|
+|price|integer|false|none|none|
+|images|[[Image](#schemaimage)]|false|none|none|
 |quantity|[Quantity](#schemaquantity)|false|none|none|
 |attributes|[ProductAttributes](#schemaproductattributes)|false|none|none|
 

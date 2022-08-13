@@ -78,11 +78,12 @@ paths:
                     name: Grolsch Pilsener krat
                     description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
                     category: beer
+                    brand: Grolsch
+                    price: 1699
                     images:
                       - height: 800
                         width: 800
                         url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-                    brand: Grolsch
                     quantity:
                       value: 300
                       unit: ml
@@ -142,11 +143,12 @@ paths:
                     name: Grolsch Pilsener krat
                     description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
                     category: beer
+                    brand: Grolsch
+                    price: 1699
                     images:
                       - height: 800
                         width: 800
                         url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-                    brand: Grolsch
                     quantity:
                       value: 300
                       unit: ml
@@ -238,11 +240,12 @@ paths:
                       name: Grolsch Pilsener krat
                       description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
                       category: beer
+                      brand: Grolsch
+                      price: 1699
                       images:
                         - height: 800
                           width: 800
                           url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-                      brand: Grolsch
                       quantity:
                         value: 300
                         unit: ml
@@ -293,11 +296,12 @@ paths:
                       name: Grolsch Pilsener krat
                       description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
                       category: beer
+                      brand: Grolsch
+                      price: 1699
                       images:
                         - height: 800
                           width: 800
                           url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-                      brand: Grolsch
                       quantity:
                         value: 300
                         unit: ml
@@ -328,11 +332,12 @@ paths:
                     name: Grolsch Pilsener krat
                     description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
                     category: beer
+                    brand: Grolsch
+                    price: 1699
                     images:
                       - height: 800
                         width: 800
                         url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-                    brand: Grolsch
                     quantity:
                       value: 300
                       unit: ml
@@ -445,11 +450,12 @@ components:
           name: Grolsch Pilsener krat
           description: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
           category: beer
+          brand: Grolsch
+          price: 1699
           images:
             - height: 800
               width: 800
               url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-          brand: Grolsch
           quantity:
             value: 300
             unit: ml
@@ -461,36 +467,6 @@ components:
             '': string
     ProductProperties:
       type: object
-      properties:
-        gtin:
-          type: string
-          example: '8716700027200'
-        name:
-          type: string
-          example: Grolsch Pilsener krat
-        description:
-          type: string
-          example: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
-        category:
-          type: string
-          example: beer
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-          example:
-            - height: 800
-              width: 800
-              url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
-        brand:
-          type: string
-          example: Grolsch
-        quantity:
-          type: object
-          $ref: '#/components/schemas/Quantity'
-        attributes:
-          type: object
-          $ref: '#/components/schemas/ProductAttributes'
       examples:
         - gtin: '8716700027200'
           name: Grolsch Pilsener krat
@@ -510,6 +486,38 @@ components:
             alcohol_percentage: 5
             contains_alcohol: true
             '': string
+      properties:
+        gtin:
+          type: string
+          example: '8716700027200'
+        name:
+          type: string
+          example: Grolsch Pilsener krat
+        description:
+          type: string
+          example: Grolsch Premium pilsner is vol van smaak met een aangename bitterheid en een rijke afdronk. Het wordt gebrouwen met twee soorten hop. Dit geeft Grolsch Premium pilsner haar unieke karakter.
+        category:
+          type: string
+          example: beer
+        brand:
+          type: string
+          example: Grolsch
+        price:
+          type: integer
+        images:
+          type: array
+          example:
+            - height: 800
+              width: 800
+              url: 'https://static.ah.nl/dam/product/AHI_43545239383734363237?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary'
+          items:
+            $ref: '#/components/schemas/Image'
+        quantity:
+          type: object
+          $ref: '#/components/schemas/Quantity'
+        attributes:
+          type: object
+          $ref: '#/components/schemas/ProductAttributes'
     ProductRequiredProperties:
       type: object
       required:
