@@ -11,6 +11,8 @@ export default class Product {
 
     private category: string | undefined;
 
+    private price: number | undefined;
+
     private images: EthanolImage[] | undefined;
 
     private brand: string | undefined;
